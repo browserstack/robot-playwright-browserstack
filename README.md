@@ -1,19 +1,6 @@
-# robot-playwright-browserstack
-Creating a sample repo for different Playwright languages and runners
-
-## Guideline
-
-* Follow the default robot directory structure
-
-* Keep the tests inside the tests folder
-
-* Keep all BrowserStack-related configs in a separate file
-
-* Run tests in parallel & local
-
 ![Logo](https://www.browserstack.com/images/static/header-logo.jpg)
 
-# BrowserStack Examples Robot Framework <a href="https://robotframework.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Robot-framework-logo.png" alt="Robot" height="30" /></a> <a href="https://www.python.org//"><img src="https://www.python.org/static/img/python-logo@2x.png" alt="python" height="22" /></a>
+# BrowserStack Robot-Playwright Framework <a href="https://robotframework.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Robot-framework-logo.png" alt="Robot" height="30" /></a> <a href="https://www.python.org//"><img src="https://www.python.org/static/img/python-logo@2x.png" alt="python" height="22" /></a>
 
 ## Introduction
 
