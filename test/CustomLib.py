@@ -4,16 +4,11 @@ import json
 import urllib.parse
 import subprocess
 import os
-# from playwright.sync_api import sync_playwright
-# CONFIG_FILE = os.environ['CONFIG_FILE'] if 'CONFIG_FILE' in os.environ else 'resources/single.json'
-
-# with open(CONFIG_FILE) as data_file:
-#     CONFIG = json.load(data_file)
 
 class CustomLib:
     desired_cap = {
-    'os': 'osx',
-    'os_version': 'catalina',
+    'os': 'Windows',
+    'os_version': '10',
     'browser': 'chrome',  # allowed browsers are `chrome`, `edge`, `playwright-chromium`, `playwright-firefox` and `playwright-webkit`
     'browser_version': 'latest', # this capability is valid only for branded `chrome` and `edge` browsers and you can specify any browser version like `latest`, `latest-beta`, `latest-1` and so on.
     'browserstack.username': os.environ['BROWSERSTACK_USERNAME'],
@@ -42,3 +37,4 @@ class CustomLib:
         cdpUrl = 'wss://cdp.browserstack.com/playwright?caps=' + urllib.parse.quote(json.dumps(CustomLib.desired_cap))
         print(cdpUrl)
         return cdpUrl
+    
