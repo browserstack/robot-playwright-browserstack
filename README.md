@@ -84,7 +84,7 @@ The tests in this repo are run on BrowserStack real device/browser using various
   To run a specific test scenario, use the command below:
   
   ```sh
-  robot /path/to/parallel_test.robot
+  robot ./test/parallel_tasks.robot
   ```
 
 - Output
@@ -99,7 +99,7 @@ The tests in this repo are run on BrowserStack real device/browser using various
   To run the entire test suite parallely in browserstack, you will require [pabot dependency](https://pabot.org/)  use the following command:
   
   ```sh
-  pabot --testlevelsplit --processes 3 path/to/parallel_test.robot
+  pabot --testlevelsplit --processes 3 ./test/parallel_tasks.robot
   ```
   You can also use the other combinations as described in [pabot](https://pabot.org/) to run your tests parallely. 
 
@@ -124,10 +124,10 @@ The tests in this repo are run on BrowserStack real device/browser using various
 
 
 ```sh
-  robot /path/to/local_test.robot
+  robot ./test/local_tasks.robot
   ```
   ```sh
-  pabot --testlevelsplit --processes 3 path/to/local_test.robot
+  pabot --testlevelsplit --processes 3 ./test/local_tasks.robot
   ```
 
 ## Additional Resources
