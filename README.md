@@ -84,7 +84,7 @@ The tests in this repo are run on BrowserStack real device/browser using various
   To run a specific test scenario, use the command below:
   
   ```sh
-  robot ./test/parallel_tasks.robot
+  robot ./test/sample_test.robot
   ```
 
 - Output
@@ -99,7 +99,7 @@ The tests in this repo are run on BrowserStack real device/browser using various
   To run the entire test suite parallely in browserstack, you will require [pabot dependency](https://pabot.org/)  use the following command:
   
   ```sh
-  pabot --testlevelsplit --processes 3 ./test/parallel_tasks.robot
+  pabot --testlevelsplit --processes 3 ./test/sample_test.robot
   ```
   You can also use the other combinations as described in [pabot](https://pabot.org/) to run your tests parallely. 
 
@@ -111,24 +111,20 @@ The tests in this repo are run on BrowserStack real device/browser using various
 --- 
 
 ### Run tests on BrowserStack which need Local Environment access
-  **Using Command-line Interface**
 
-  1. You have to download the BrowserStack Local binary from the links below (depending on your environment):
-      * [OS X (10.7 and above)](https://www.browserstack.com/browserstack-local/BrowserStackLocal-darwin-x64.zip)
-      * [Linux 32-bit](https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-ia32.zip)
-      * [Linux 64-bit](https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip)
-      * [Windows (XP and above)](https://www.browserstack.com/browserstack-local/BrowserStackLocal-win32.zip)
-  2. Once you have downloaded and unzipped the file, you can initiate the binary by running the command: `./BrowserStackLocal --key YOUR_ACCESS_KEY`
-  3. Once you see the terminal say "[SUCCESS]" You can now access your local server(s) in our remote browser”, your local testing connection is considered established.
-  4. You can then run the sample Local test using `python local-playwright-test.py`
+  **Using Language Bindings**
 
-
-```sh
-  robot ./test/local_tasks.robot
+  Follow the steps below:
+  ```
+  pip install browserstack-local
   ```
   ```sh
-  pabot --testlevelsplit --processes 3 ./test/local_tasks.robot
+  robot ./test/sample_local_test.robot
   ```
+  ```sh
+  pabot --testlevelsplit --processes 3 ./test/sample_local_test.robot
+  ```
+
 
 ## Additional Resources
 

@@ -1,8 +1,8 @@
-async function SetStatus(teststatus, page) {
-  if (teststatus == 1) {
-    await page.evaluate(_ => { }, `browserstack_executor: ${JSON.stringify({ action: 'setSessionStatus', arguments: { status: 'passed', reason: ':-)' } })}`);
+async function SetStatus(teststatus,reason, page) {
+  if (teststatus == 'PASS') {
+    await page.evaluate(_ => { }, `browserstack_executor: ${JSON.stringify({ action: 'setSessionStatus', arguments: { status: 'passed', reason: 'Passed' } })}`);
   } else {
-    await page.evaluate(_ => { }, `browserstack_executor: ${JSON.stringify({ action: 'setSessionStatus', arguments: { status: 'failed', reason: ':-(' } })}`);
+    await page.evaluate((reason) => { }, `browserstack_executor: ${JSON.stringify({ action: 'setSessionStatus', arguments: { status: 'failed', reason: reason } })}`);
   }
 }
 
