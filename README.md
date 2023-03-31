@@ -77,29 +77,17 @@ The tests in this repo are run on BrowserStack real device/browser using various
   set BROWSERSTACK_ACCESS_KEY=<browserstack-access-key>
   ```
   
-### Run a specific test
+
+### Run the entire test suite in parallel
 
 - How to run the test?
 
-  To run a specific test scenario, use the command below:
+  To run the entire test suite parallely in browserstack, you will require [pabot dependency](https://pabot.org/).
+
+  Use the following command:
   
   ```sh
-  robot ./test/sample_test.robot
-  ```
-
-- Output
-
-  This run profile executes the specific test scenario in browserstack on the platforms configured in your config file.
-
-
-### Run the entire test suite
-
-- How to run the test?
-
-  To run the entire test suite parallely in browserstack, you will require [pabot dependency](https://pabot.org/)  use the following command:
-  
-  ```sh
-  pabot --testlevelsplit --processes 3 ./test/sample_test.robot
+  pabot --pabotlib --testlevelsplit --processes 3 ./test/sample_test.robot
   ```
   You can also use the other combinations as described in [pabot](https://pabot.org/) to run your tests parallely. 
 
@@ -110,7 +98,13 @@ The tests in this repo are run on BrowserStack real device/browser using various
   
 --- 
 
-### Run tests on BrowserStack which need Local Environment access
+### Run tests in Parallel on BrowserStack which need Local Environment access
+
+- How to run the test?
+
+  To run the entire test suite parallely in browserstack, you will require [pabot dependency](https://pabot.org/) and [pabotlib dependecy](https://pabot.org/PabotLib.html), PabotLib helps in parallel execution with pabot. These allow control to when and where a keyword will be executed.
+  -  Run Setup Only Once is used for starting the local testing connection
+  -  Run On Last Process is used for killing the local testing connection
 
   **Using Language Bindings**
 
@@ -119,10 +113,7 @@ The tests in this repo are run on BrowserStack real device/browser using various
   pip install browserstack-local
   ```
   ```sh
-  robot ./test/sample_local_test.robot
-  ```
-  ```sh
-  pabot --testlevelsplit --processes 3 ./test/sample_local_test.robot
+  pabot --pabotlib --testlevelsplit --processes 2 ./test/sample_local_test.robot   
   ```
 
 
