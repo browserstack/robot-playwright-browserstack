@@ -2,18 +2,16 @@ from browserstack.local import Local
 import json
 import urllib.parse
 import subprocess
-import os
-
+import os 
 
 class CustomLib:
+    desired_cap = None
+    bs_local = None
+    
     desired_cap = {
-    'os': 'osx',
-    'os_version': 'catalina',
-    'browser': 'chrome',  # allowed browsers are `chrome`, `edge`, `playwright-chromium`, `playwright-firefox` and `playwright-webkit`
-    'browser_version': 'latest', # this capability is valid only for branded `chrome` and `edge` browsers and you can specify any browser version like `latest`, `latest-beta`, `latest-1` and so on.
+    'browser_version': 'latest',
     'browserstack.username': os.environ['BROWSERSTACK_USERNAME'],
     'browserstack.accessKey': os.environ['BROWSERSTACK_ACCESS_KEY'],
-    'browserstack.geoLocation': 'FR',
     'project': 'BStack Project',
     'build': 'browserstack-build-1',
     'buildTag': 'Regression',
@@ -32,9 +30,26 @@ class CustomLib:
     }
 
 
-    def createCdpUrl(self):
+    def createCdpUrl(self,browser):
         clientPlaywrightVersion = str(subprocess.getoutput('playwright --version')).strip().split(" ")[1]
         CustomLib.desired_cap['client.playwrightVersion'] = clientPlaywrightVersion
+        if(browser=='chrome'):
+            CustomLib.desired_cap['os']='Windows'
+            CustomLib.desired_cap['os_version']='11'
+            CustomLib.desired_cap['browser']='chrome'
+    
+            
+                
+        elif(browser=='firefox'):
+            CustomLib.desired_cap['os']='OS X'
+            CustomLib.desired_cap['os_version']='Ventura'
+            CustomLib.desired_cap['browser']='playwright-firefox'
+            
+        else:
+            CustomLib.desired_cap['os']='OS X'
+            CustomLib.desired_cap['os_version']='Ventura'
+            CustomLib.desired_cap['browser']='playwright-webkit'
+        
         cdpUrl = 'wss://cdp.browserstack.com/playwright?caps=' + urllib.parse.quote(json.dumps(CustomLib.desired_cap))
         print(cdpUrl)
         return cdpUrl
@@ -45,16 +60,14 @@ class CustomLib:
         return platformDetails
     
     def startLocalTunnel(self):
-        # Creates an instance of Local
-        self.bs_local = Local()
-        # You can also set an environment variable - "BROWSERSTACK_ACCESS_KEY".
-        bs_local_args = { "key": os.environ['BROWSERSTACK_ACCESS_KEY'], "forcelocal": "true" }
-        # Starts the Local instance with the required arguments
-        self.bs_local.start(**bs_local_args)
-        # Check if BrowserStack local instance is running
-        print("BrowserStackLocal running: " + str(self.bs_local.isRunning()))
+        global bs_local
+        bs_local = Local()
+        bs_local_args = { "key": os.environ['BROWSERSTACK_ACCESS_KEY'], "localIdentifier": "local_connection_name"}
+        bs_local.start(**bs_local_args)
+
     
     def stopLocalTunnel(self):
-        self.bs_local.stop()
-
+        global bs_local
+        if bs_local is not None:
+            bs_local.stop()
     
