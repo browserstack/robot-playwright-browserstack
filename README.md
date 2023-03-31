@@ -104,7 +104,7 @@ The tests in this repo are run on BrowserStack real device/browser using various
 
   To run the entire test suite parallely in browserstack, you will require [pabot dependency](https://pabot.org/) and [pabotlib dependecy](https://pabot.org/PabotLib.html), PabotLib helps in parallel execution with pabot. These allow control to when and where a keyword will be executed.
   -  Run Setup Only Once is used for starting the local testing connection
-  -  Run On Last Process is used for killing the local testing connection
+  -  Run Teardown Only Once is used for killing the local testing connection
 
   **Using Language Bindings**
 

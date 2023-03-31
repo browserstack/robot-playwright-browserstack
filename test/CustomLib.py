@@ -17,6 +17,7 @@ class CustomLib:
     'buildTag': 'Regression',
     'resolution': '1280x1024',
     'browserstack.local': 'true',
+    'browserstack.localIdentifier': 'local_connection_name',
     'browserstack.playwrightVersion': '1.latest',
     'client.playwrightVersion': '1.latest',
     'browserstack.debug': 'true',  # enabling visual logs
@@ -61,7 +62,7 @@ class CustomLib:
     def startLocalTunnel(self):
         global bs_local
         bs_local = Local()
-        bs_local_args = { "key": "1pkpXahTJTDkhMeAhvfu" }
+        bs_local_args = { "key": os.environ['BROWSERSTACK_ACCESS_KEY'], "localIdentifier": "local_connection_name"}
         bs_local.start(**bs_local_args)
 
     

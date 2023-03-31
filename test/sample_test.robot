@@ -6,7 +6,7 @@ Library             String
 Library     Browser    jsextension=${EXECDIR}/test/browserstackExecutor.js
 Library     pabot.PabotLib
 Suite Setup    Run Setup Only Once    CustomLib.startLocalTunnel
-Suite Teardown    Run On Last Process    CustomLib.stopLocalTunnel
+Suite Teardown    Run Teardown Only Once    CustomLib.stopLocalTunnel
 
 *** Test Cases ***
 Sample Test 1
