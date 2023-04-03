@@ -63,7 +63,7 @@ The tests in this repo are run on BrowserStack real device/browser using various
 - Create a new [BrowserStack account](https://www.browserstack.com/users/sign_up) or use an existing one.
 - Identify your BrowserStack username and access key from the [BrowserStack Automate Dashboard](https://automate.browserstack.com/) and export them as environment variables using the below commands.
 
-    - For \*nix based and Mac machines:
+    - For unix based and Mac machines:
 
   ```sh
   export BROWSERSTACK_USERNAME=<browserstack-username> &&
