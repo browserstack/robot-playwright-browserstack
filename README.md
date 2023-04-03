@@ -113,7 +113,7 @@ The tests in this repo are run on BrowserStack real device/browser using various
   pip install browserstack-local
   ```
   ```sh
-  pabot --pabotlib --testlevelsplit --processes 2 ./test/sample_local_test.robot   
+  pabot --pabotlib --testlevelsplit --processes 3 ./test/sample_local_test.robot   
   ```
 
 
