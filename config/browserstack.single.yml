@@ -1,0 +1,26 @@
+# Single-platform variant of browserstack.yml.
+# Used by the "single" run command — copy this file to ./browserstack.yml,
+# run, then restore the parallel default.
+userName: YOUR_USERNAME
+accessKey: YOUR_ACCESS_KEY
+
+projectName: BrowserStack Samples
+buildName: robot-playwright-sdk-build-1
+buildIdentifier: '#${BUILD_NUMBER}'
+
+framework: robot
+
+platforms:
+  - os: Windows
+    osVersion: 11
+    browserName: chrome
+    browserVersion: latest
+
+parallelsPerPlatform: 1
+browserstackLocal: false
+
+debug: true
+networkLogs: false
+consoleLogs: errors
+
+source: robot-playwright-sdk:sample-main:v1.0

@@ -1,15 +1,14 @@
 ![Logo](https://www.browserstack.com/images/static/header-logo.jpg)
 
-# BrowserStack Robot-Playwright Framework <a href="https://robotframework.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Robot-framework-logo.png" alt="Robot" height="30" /></a> <a href="https://www.python.org//"><img src="https://www.python.org/static/img/python-logo@2x.png" alt="python" height="22" /></a>
+# BrowserStack Robot-Playwright Framework — BrowserStack SDK <a href="https://robotframework.org/"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Robot-framework-logo.png" alt="Robot" height="30" /></a> <a href="https://www.python.org//"><img src="https://www.python.org/static/img/python-logo@2x.png" alt="python" height="22" /></a>
 
 ## Introduction
 
-Robot Framework is a generic open source automation framework which can be used for test automation. It is open and extensible and can be integrated with many tools to create powerful and flexible automation solutions.
-Robot Framework has easy syntax, utilising human-readable keywords and its capabilities can be extended by libraries implemented with Python or Java.
+This branch shows how to run [Robot Framework](https://robotframework.org/) tests using the [Browser](https://robotframework-browser.org/) Playwright library on BrowserStack via the [BrowserStack Python SDK](https://pypi.org/project/browserstack-sdk/). The SDK reads `browserstack.yml`, supplies platform capabilities, runs the matrix in parallel, manages BrowserStack Local, and reports test status to the Automate dashboard for you. Your `.robot` files use vanilla `Browser` library keywords — no CDP URL construction, no manual cap merging, no manual Local start/stop.
 
-This BrowserStack Example repository demonstrates a Playwright test library, called [Browser](https://robotframework-browser.org/) written in [Robot Framework](https://robotframework.org/) with parallel testing capabilities. The test scripts are written for the open source [BrowserStack Demo web application](https://bstackdemo.com) ([Github](https://github.com/browserstack/browserstack-demo-app)). This BrowserStack Demo App is an e-commerce web application which showcases multiple real-world user scenarios. The app is bundled with offers data, orders data and products data that contains everything you need to start using the app and run tests out-of-the-box.
+For the legacy non-SDK example with hand-built CDP URLs, see the [`main`](https://github.com/browserstack/robot-playwright-browserstack/tree/main) branch.
 
-The tests in this repo are run on BrowserStack real device/browser using various run configurations and test capabilities.
+The test scripts target the open-source [BrowserStack Demo web application](https://bstackdemo.com) ([Github](https://github.com/browserstack/browserstack-demo-app)).
 
 ---
 
@@ -19,11 +18,13 @@ The tests in this repo are run on BrowserStack real device/browser using various
 
 ## Repository setup
 
-- Clone the repository
+- Clone the repository and check out this branch
     ```sh
     git clone https://github.com/browserstack/robot-playwright-browserstack.git
+    cd robot-playwright-browserstack
+    git checkout browserstack-sdk-playwright
     ```
-    
+
 - It is recommended to use a virtual environment to install dependencies. To create a virtual environment:
    ```sh
    python3 -m venv env
@@ -34,36 +35,31 @@ The tests in this repo are run on BrowserStack real device/browser using various
 
   Install [Python™](https://www.python.org/downloads/)
 
-  Install [Node.js®](https://nodejs.org/en/download/)
-- Ensure you have the dependencies installed on the machine as mentioned in the `requirements.txt file`
-    
-    To Install the requirements:
+  Install [Node.js®](https://nodejs.org/en/download/) — **Node 18+ required, Node 20 recommended.** The Robot `Browser` library bundles its own Playwright Node wrapper which silently fails to start on older Node versions.
+- Install the dependencies listed in `requirements.txt` (this branch adds `browserstack-sdk` and drops `browserstack-local` — the SDK manages the tunnel for you):
+
     ```sh
     pip install -r requirements.txt
     ```
-- rfbowser init:
+- `rfbrowser init` installs the NodeJS dependencies and browser binaries used by the Robot `Browser` library:
 
   ```sh
   rfbrowser init
   ```
-  This installs the NodeJS [dependencies](https://github.com/MarketSquare/robotframework-browser/blob/main/package.json)
-  , installation is done by default to `site-packages/Browser/wrapper/node_modules/` directory.
-  This also install browser binaries under the `node_modules` folder, which easily can be
-  +700Mb for each Browser library installation.
-
 
 ## About the tests in this repository
 
-  Navigate to bstackdemo, Add an item to the card and Verify the item is added to the cart.
+- `test/sdk_sample_test.robot` — navigates to bstackdemo, adds an item to the cart, and verifies the cart drawer shows one item.
+- `test/sdk_sample_local_test.robot` — opens a page served on `bs-local.com:45454` via BrowserStack Local and asserts the title.
 
-## Running Your Tests on Browserstack
+## Running Your Tests on BrowserStack
 
-## Prerequisites to run your tests on Browserstack
+## Prerequisites
 
 - Create a new [BrowserStack account](https://www.browserstack.com/users/sign_up) or use an existing one.
-- Identify your BrowserStack username and access key from the [BrowserStack Automate Dashboard](https://automate.browserstack.com/) and export them as environment variables using the below commands.
+- Identify your BrowserStack username and access key from the [BrowserStack Automate Dashboard](https://automate.browserstack.com/) and either set them in `browserstack.yml` (and the variants under `config/`) or export them as environment variables (env vars take precedence):
 
-    - For unix based and Mac machines:
+    - For unix-based and Mac machines:
 
   ```sh
   export BROWSERSTACK_USERNAME=<browserstack-username> &&
@@ -76,51 +72,63 @@ The tests in this repo are run on BrowserStack real device/browser using various
   set BROWSERSTACK_USERNAME=<browserstack-username>
   set BROWSERSTACK_ACCESS_KEY=<browserstack-access-key>
   ```
-  
+
 
 ### Run the entire test suite in parallel
 
 - How to run the test?
 
-  To run the entire test suite parallely in browserstack, you will require [pabot dependency](https://pabot.org/).
+  The default `browserstack.yml` declares three platforms (Windows 11 Chrome, OS X Sonoma Firefox, OS X Sonoma Safari). The SDK runs them in parallel for you when you invoke `pabot` through the SDK wrapper:
 
-  Use the following command:
-  
   ```sh
-  pabot --pabotlib --testlevelsplit --processes 3 ./test/sample_test.robot
+  browserstack-sdk pabot --testlevelsplit --processes 3 ./test/sdk_sample_test.robot
   ```
-  You can also use the other combinations as described in [pabot](https://pabot.org/) to run your tests parallely. 
+
+  Add or remove entries under `platforms:` in `browserstack.yml` to change the matrix; bump `parallelsPerPlatform` to fan out further.
 
 - Output
 
-  This run profile executes the entire test suite parallely in browserstack 
+  Three sessions appear on your [BrowserStack Automate dashboard](https://automate.browserstack.com/) under the build named in `browserstack.yml`.
 
-  
---- 
+---
 
-### Run tests in Parallel on BrowserStack which need Local Environment access
+### Run tests on BrowserStack which need Local Environment access
 
 - How to run the test?
 
-  To run the entire test suite parallely in browserstack, you will require [pabot dependency](https://pabot.org/) and [pabotlib dependecy](https://pabot.org/PabotLib.html), PabotLib helps in parallel execution with pabot. These allow control to when and where a keyword will be executed.
-  -  Run Setup Only Once is used for starting the local testing connection
-  -  Run Teardown Only Once is used for killing the local testing connection
+  The local-mode example uses a single-platform config with `browserstackLocal: true`. The SDK starts and stops the BrowserStack Local tunnel for you — no Python `browserstack-local` package, no `Run Setup Only Once` boilerplate.
 
-  **Using Language Bindings**
+  Copy the local config in place and run:
 
-  Follow the steps below:
-  ```
-  pip install browserstack-local
-  ```
   ```sh
-  pabot --pabotlib --testlevelsplit --processes 3 ./test/sample_local_test.robot   
+  cp config/browserstack.local.yml browserstack.yml
+  browserstack-sdk robot ./test/sdk_sample_local_test.robot
   ```
 
+  When you're done, restore the parallel default by checking out `browserstack.yml` from git or re-copying nothing — `git restore browserstack.yml` is the simplest reset.
+
+  To exercise the local flow against a real local server, run a tiny static server in another terminal first:
+
+  ```sh
+  python3 -m http.server 45454
+  ```
+
+  with an `index.html` whose `<title>` is `BrowserStack Local`.
+
+## How the SDK changes things from `main`
+
+- One `browserstack.yml` declares platforms; the SDK picks them up automatically — no `CustomLib.createCdpUrl()` per-browser branching.
+- The SDK constructs the Playwright CDP URL and routes the `Browser` library's connection to BrowserStack — no `Connect To Browser    ${cdpURL}` calls in the `.robot` files.
+- The SDK runs platforms in parallel for you — no per-test variants like `Sample Test 1/2/3`.
+- The SDK starts and stops BrowserStack Local when `browserstackLocal: true` — no `BrowserStack::Local` start/stop in `CustomLib.py`.
+- The SDK reports test status and session names to BrowserStack — no `browserstackExecutor.js` `setSessionStatus` / `setSessionName` boilerplate.
+- The CLI is `browserstack-sdk pabot ...` or `browserstack-sdk robot ...` instead of `pabot ...` / `robot ...` directly.
 
 ## Additional Resources
 
 - View your test results on the [BrowserStack Automate dashboard](https://www.browserstack.com/automate)
-- Customizing your platform capabilities on BrowserStack using our [Capability documentation](https://www.browserstack.com/docs/automate/playwright/playwright-capabilities)
+- [BrowserStack Python SDK](https://pypi.org/project/browserstack-sdk/) on PyPI
+- Customizing your platform capabilities using our [Capability documentation](https://www.browserstack.com/docs/automate/playwright/playwright-capabilities)
 - [List of Browsers & mobile devices](https://www.browserstack.com/docs/automate/playwright/browsers-and-os) for automation testing on BrowserStack
 - [Using Automate REST API](https://www.browserstack.com/automate/rest-api) to access information about your tests via the command-line interface
 - Understand how many parallel sessions you need by using our [Parallel Test Calculator](https://www.browserstack.com/automate/parallel-calculator?ref=github)

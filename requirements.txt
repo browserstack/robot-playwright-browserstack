@@ -1,5 +1,5 @@
 robotframework-browser
 robotframework
 robotframework-pabot
-browserstack-local
+browserstack-sdk
 playwright
