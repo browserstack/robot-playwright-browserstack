@@ -1,4 +1,11 @@
-robotframework-browser
+# Pinned: robotframework-browser 19.14+ bundles Playwright Node core 1.60.x, whose
+# client classes moved out of `playwright-core/lib/client/`. The BrowserStack SDK's
+# injected Playwright wrapper still requires `playwright-core/lib/client/browserContext`,
+# so on 1.60 the Node sidecar crashes at startup ("Could not connect to the playwright
+# process") and no BrowserStack session is created. 19.13.0 resolves Node core to 1.59.x
+# (which keeps `lib/client/`) and stays compatible with the SDK. Unpin once the SDK
+# wrapper is updated for Playwright 1.60's bundled core.
+robotframework-browser==19.13.0
 robotframework
 robotframework-pabot
 browserstack-sdk
